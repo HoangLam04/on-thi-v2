@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nhật ký ôn thi · Lặp lại ngắt quãng</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--card:#fff;--ink:#111;--p:#4169E1;--pl:#E4EAFC;--r:#FF5C5C;--sh:4px 4px 0 var(--ink);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#12141c;--card:#1d2130;--ink:#f4f4f4;--pl:#2a3562}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#12141c;--card:#1d2130;--ink:#f4f4f4;--pl:#2a3562}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 15px/1.45 'Be Vietnam Pro',system-ui,sans-serif}
+.w{max-width:760px;margin:0 auto;padding:14px}
+h1{font-size:27px;font-weight:800;margin:0 0 2px;line-height:1.1}
+h2{font-size:19px;font-weight:800;margin:0 0 10px}
+h3{font-size:16px;font-weight:800;margin:0 0 8px;padding:5px 10px;border:3px solid var(--ink);border-radius:8px;color:#111;display:inline-block}
+.box{background:var(--card);border:3px solid var(--ink);box-shadow:var(--sh);border-radius:12px;padding:12px;margin:0 0 16px}
+.hd{background:var(--p);color:#fff;border-color:#111;box-shadow:4px 4px 0 #111}
+.b{font:inherit;font-weight:800;border:3px solid var(--ink);background:var(--card);color:var(--ink);padding:8px 12px;border-radius:10px;box-shadow:3px 3px 0 var(--ink);cursor:pointer;min-height:40px}
+.b:active{transform:translate(3px,3px);box-shadow:none}
+.b.on{background:var(--p);color:#fff}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 16px}
+.cd{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 16px}
+.cd div{border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);border-radius:10px;padding:8px 10px;color:#111;font-size:13px}
+.cd b{display:block;font-size:15px;line-height:1.25}
+.cd em{font-style:normal;font-weight:800;font-size:20px}
+.bar{height:20px;border:3px solid var(--ink);border-radius:8px;background:var(--card);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--p)}
+.t{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;border:3px solid var(--ink);border-radius:10px;padding:8px;margin:0 0 8px;background:var(--card)}
+.t .g{display:flex;gap:6px}
+.t .g .b{padding:6px 9px;font-size:13px;min-height:36px}
+.tag{display:inline-block;font-size:12px;font-weight:800;padding:1px 7px;border:2px solid #111;border-radius:6px;color:#111;margin-left:4px}
+.warn{background:var(--r);color:#111;border:3px solid var(--ink);border-radius:10px;padding:8px 10px;margin:10px 0 0;font-weight:700}
+textarea,input{font:inherit;width:100%;border:3px solid var(--ink);border-radius:10px;padding:8px;background:var(--card);color:var(--ink)}
+textarea{min-height:90px;resize:vertical}
+.chw{position:relative;margin:0 0 8px}
+.ch{display:flex;gap:6px;overflow-x:auto;padding:0 2px 6px}
+.col{flex:none;width:40px;text-align:center;font-size:11px;line-height:1.2;border-radius:6px}
+.col.ex{background:#FFD93D;color:#111}
+.bz{height:120px;display:flex;flex-direction:column-reverse}
+.bz i{display:block;border-top:2px solid #111;box-sizing:border-box}
+.lb{height:46px;padding-top:3px}
+.col.o .lb b{color:var(--r)}
+.cap{position:absolute;left:0;right:0;border-top:3px dashed var(--r);pointer-events:none}
+.gr{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:8px;margin:0 0 6px}
+.gr .b{padding:6px 0;color:#111}
+.gr .due{border-color:var(--r);box-shadow:3px 3px 0 var(--r)}
+.sh{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:3px solid var(--ink);padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 0 rgba(0,0,0,.25)}
+.sh .in{max-width:760px;margin:0 auto}
+.row{display:grid;grid-template-columns:1fr 70px 70px;gap:8px;align-items:center;margin:0 0 8px;font-size:13px}
+.sm{font-size:13px}
+ul{margin:6px 0 0;padding-left:20px}
+li{margin:0 0 4px}
+@media (min-width:600px){.cd{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div class="w" id="app"></div>
+<script>
+const K='nhatkyOnThi_v1',LAD=[1,2,4,7,12],GL=['Khó','Ổn','Dễ'],GE=['😵','🙂','😎'];
+const BASE={cap:240,subs:[
+{id:'cnc',name:'Chăn nuôi CNC',exam:'2026-11-25',n:15,min:25,rsv:1,c:'#FFD93D'},
+{id:'ts',name:'Công nghệ thủy sản',exam:'2026-11-27',n:11,min:30,rsv:1,c:'#7AE582'},
+{id:'pt',name:'Phương tiện dạy học',exam:'2026-12-08',n:6,min:50,rsv:2,c:'#FF9EC4'},
+{id:'kt',name:'Kiểu tổ chức dạy học hiện đại',exam:'2026-12-10',n:60,min:8,rsv:3,c:'#8FB0FF'}],cards:{},log:{},jr:{}};
+let S;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
+if(!S||!S.subs)S=JSON.parse(JSON.stringify(BASE));
+S.subs.forEach(s=>{if(!S.cards[s.id])S.cards[s.id]=Array.from({length:s.n},()=>({r:0,due:null,f:null}))});
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const ui={tab:0,sel:null,rst:0};
+const dn=d=>Math.round(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
+const today=()=>dn(new Date());
+const dt=n=>new Date(n*864e5);
+const fmt=n=>dt(n).getUTCDate()+'/'+(dt(n).getUTCMonth()+1);
+const dow=n=>['CN','T2','T3','T4','T5','T6','T7'][dt(n).getUTCDay()];
+const ex=s=>{const[a,b,c]=s.exam.split('-');return Date.UTC(a,b-1,c)/864e5};
+const sub=id=>S.subs.find(s=>s.id==id);
+const rv=s=>Math.ceil(s.min*.4);
+const esc=x=>String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+/* Lập kế hoạch ngày t: câu cần ôn (đến hạn) + câu học mới (chia đều đến hết hạn học mới) */
+function plan(C,t){return S.subs.map(s=>{const E=ex(s),cs=C[s.id],rev=[],unl=[];let ltd=0;
+ cs.forEach((c,i)=>{if(c.due==null)unl.push(i);else{if(c.f===t)ltd++;if(c.due<=t&&t<=E)rev.push(i)}});
+ const dl=Math.max(E-s.rsv,t)-t+1;
+ const q=t>=E?0:Math.max(0,Math.ceil((unl.length+ltd)/dl)-ltd);
+ return{s,rev,nw:unl.slice(0,q),unl:unl.length,dl}})}
+const mins=p=>p.nw.length*p.s.min+p.rev.length*rv(p.s);
+
+/* Chấm điểm một câu: khó/ổn/dễ -> lịch ôn tiếp theo (không bao giờ vượt quá ngày trước thi) */
+function rate(C,s,i,g,t){const c=C[s.id][i],E=ex(s),isNew=c.due==null;if(isNew)c.f=t;
+ c.r=g==0?0:Math.min(c.r+(g==2?2:1),5);
+ const iv=g==0?1:LAD[c.r-1];
+ c.due=t>=E?E+1:t<E-1?Math.min(t+iv,E-1):E;return isNew}
+
+function sim(){const C=JSON.parse(JSON.stringify(S.cards)),t0=today(),T=Math.max(...S.subs.map(ex)),out=[];
+ for(let t=t0;t<=T;t++){let m=0,per={};
+  plan(C,t).forEach(p=>{const mm=mins(p);m+=mm;per[p.s.id]=mm;p.nw.concat(p.rev).forEach(i=>rate(C,p.s,i,1,t))});
+  out.push({t,m,per})}return out}
+
+function head(t){const d=dt(t);return `<div class="box hd"><h1>📚 Nhật ký ôn thi</h1><div>${dow(t)}, ${fmt(t)}/${d.getUTCFullYear()} · lặp lại ngắt quãng</div></div>`+
+ `<div class="tabs">${['Hôm nay','Lộ trình','Các câu'].map((n,i)=>`<button class="b${ui.tab==i?' on':''}" data-a="tab" data-v="${i}">${n}</button>`).join('')}</div>`}
+
+function chips(t){return `<div class="cd">`+S.subs.map(s=>{const d=ex(s)-t;
+ return `<div style="background:${s.c}"><b>${s.name}</b><em>${d>0?d+' ngày':d==0?'Thi hôm nay':'Đã thi'}</em><br>Thi ${fmt(ex(s))}</div>`}).join('')+`</div>`}
+
+function vToday(t){const P=plan(S.cards,t),L=S.log[t]||[];
+ const left=P.reduce((a,p)=>a+p.nw.length+p.rev.length,0),leftMin=P.reduce((a,p)=>a+mins(p),0);
+ const doneMin=L.reduce((a,x)=>{const s=sub(x.s);return a+(x.n?s.min:rv(s))},0);
+ const pct=L.length+left?Math.round(L.length*100/(L.length+left)):100,tot=leftMin+doneMin;
+ let h=chips(t)+`<div class="box"><h2>Việc hôm nay: ${L.length}/${L.length+left} xong</h2><div class="bar"><i style="width:${pct}%"></i></div>
+ <p class="sm" style="margin:8px 0 0">Khoảng <b>${tot} phút</b> (còn ${leftMin} phút) · quỹ thời gian ${S.cap} phút/ngày</p>`+
+ (tot>S.cap?`<div class="warn">Hôm nay vượt quỹ thời gian ${tot-S.cap} phút. Hãy ưu tiên môn thi sớm nhất, hoặc tăng quỹ giờ ở tab Lộ trình.</div>`:'')+`</div>`;
+ const any=P.some(p=>p.nw.length||p.rev.length);
+ if(!any)h+=`<div class="box"><h2>🎉 Xong việc hôm nay</h2>Không còn câu nào đến hạn. Ghi nhật ký bên dưới rồi nghỉ ngơi.</div>`;
+ P.forEach(p=>{if(!p.nw.length&&!p.rev.length)return;
+  h+=`<h3 style="background:${p.s.c}">${p.s.name}</h3>`;
+  const row=(i,isNew)=>{const c=S.cards[p.s.id][i],late=!isNew&&c.due<t;
+   return `<div class="t"><div><b>Câu ${i+1}</b><span class="tag" style="background:${isNew?'#FFD93D':'#8FB0FF'}">${isNew?'Học mới':'Ôn lại'}</span>${late?'<span class="tag" style="background:#FF5C5C">Quá hạn</span>':''}<div class="sm">~${isNew?p.s.min:rv(p.s)} phút</div></div>
+   <div class="g">${[0,1,2].map(g=>`<button class="b" data-a="r" data-s="${p.s.id}" data-i="${i}" data-g="${g}">${GE[g]} ${GL[g]}</button>`).join('')}</div></div>`};
+  h+=`<div style="margin-top:8px">`+p.rev.map(i=>row(i,0)).join('')+p.nw.map(i=>row(i,1)).join('')+`</div>`});
+ if(L.length)h+=`<div class="box"><h2>Đã làm hôm nay</h2>`+L.map(x=>`<span class="tag" style="background:${sub(x.s).c};margin:0 4px 6px 0">✓ ${sub(x.s).name.split(' ')[0]} · câu ${x.i+1} · ${GL[x.g]}</span>`).join('')+`</div>`;
+ h+=`<div class="box"><h2>Nhật ký hôm nay</h2><textarea id="jr" placeholder="Hôm nay học được gì, câu nào còn mơ hồ, mai cần làm gì…">${esc(S.jr[t]||'')}</textarea></div>`;
+ const days=[...new Set([...Object.keys(S.log),...Object.keys(S.jr)])].map(Number).filter(d=>d<t).sort((a,b)=>b-a).slice(0,7);
+ if(days.length)h+=`<div class="box"><h2>Các ngày trước</h2>`+days.map(d=>`<p class="sm" style="margin:0 0 8px"><b>${dow(d)} ${fmt(d)}</b> · ${(S.log[d]||[]).length} lượt học${S.jr[d]?'<br>'+esc(S.jr[d]).slice(0,140):''}</p>`).join('')+`</div>`;
+ return h}
+
+function chart(){const D=sim(),mx=Math.max(S.cap,...D.map(d=>d.m)),sc=120/mx,exs=S.subs.map(ex);
+ return `<div class="chw"><div class="cap" style="bottom:${46+S.cap*sc}px"></div><div class="ch">`+D.map(d=>{
+  const isE=exs.includes(d.t);
+  return `<div class="col${isE?' ex':''}${d.m>S.cap?' o':''}" title="${d.m} phút"><div class="bz">${S.subs.map(s=>d.per[s.id]?`<i style="height:${d.per[s.id]*sc}px;background:${s.c}"></i>`:'').join('')}</div><div class="lb">${isE?'🎯':''}${fmt(d.t)}<br>${dow(d.t)}<br><b>${(d.m/60).toFixed(1)}h</b></div></div>`}).join('')+`</div></div>`}
+
+function vPlan(t){const P=plan(S.cards,t),D=sim(),over=D.filter(d=>d.m>S.cap);
+ let h=chips(t)+`<div class="box"><h2>Khối lượng dự kiến mỗi ngày</h2><p class="sm" style="margin:0 0 8px">Giả sử bạn chấm “Ổn” mọi câu. Đường đứt đỏ là quỹ thời gian ${S.cap} phút/ngày; 🎯 là ngày thi.</p>${chart()}`+
+ (over.length?`<div class="warn">${over.length} ngày vượt quỹ giờ (${over.slice(0,4).map(d=>fmt(d.t)).join(', ')}${over.length>4?'…':''}). Tăng quỹ giờ, hoặc giảm số phút/câu, hoặc bắt đầu sớm hơn.</div>`:`<p class="sm" style="margin:8px 0 0"><b>Kế hoạch vừa sức:</b> mọi ngày đều nằm trong quỹ giờ.</p>`)+`</div>`;
+ P.forEach(p=>{const s=p.s,E=ex(s),cs=S.cards[s.id],learned=cs.filter(c=>c.due!=null).length,solid=cs.filter(c=>c.r>=3).length,last=Math.max(E-s.rsv,t);
+  h+=`<div class="box"><h3 style="background:${s.c}">${s.name}</h3>
+  <p class="sm" style="margin:0 0 8px">Thi ${fmt(E)} · ${s.n} câu · ~${s.min} phút/câu mới</p>
+  <div class="bar"><i style="width:${Math.round(learned*100/s.n)}%"></i></div>
+  <p class="sm" style="margin:6px 0">Đã học ${learned}/${s.n} · thuộc chắc ${solid}/${s.n}</p>
+  <ul class="sm">${t<E&&p.unl?`<li>Học mới: <b>${fmt(t)} → ${fmt(last)}</b>, khoảng <b>${Math.ceil(p.unl/p.dl)} câu/ngày</b> (~${Math.ceil(p.unl/p.dl)*s.min} phút)</li>`:'<li>Đã học hết câu mới.</li>'}
+  <li>${s.rsv>1?`Ôn tổng hợp: <b>${fmt(E-s.rsv+1)} → ${fmt(E-1)}</b>, mọi câu ôn lại trước thi`:`Ôn lại toàn bộ vào ngày <b>${fmt(E-1)}</b> và sáng ngày thi`}</li></ul></div>`});
+ h+=`<div class="box"><h2>Cài đặt</h2><div class="row"><b>Quỹ giờ (phút/ngày)</b><input type="number" data-k="cap" value="${S.cap}" min="30" step="30"><span></span></div>
+ <div class="row"><b>Môn</b><b>Phút/câu</b><b>Ngày ôn tổng</b></div>`+
+ S.subs.map(s=>`<div class="row"><span>${s.name}</span><input type="number" data-k="min" data-s="${s.id}" value="${s.min}" min="1"><input type="number" data-k="rsv" data-s="${s.id}" value="${s.rsv}" min="1" max="6"></div>`).join('')+`</div>`;
+ h+=`<div class="box"><h2>Cách chia thời gian</h2><ul class="sm">
+ <li><b>Môn thi sớm làm trước:</b> chăn nuôi (25/11) và thủy sản (27/11) chiếm phần lớn tuần đầu, hai môn còn lại học nhẹ để đỡ dồn.</li>
+ <li><b>Chia đều câu mới:</b> số câu mới mỗi ngày = số câu chưa học ÷ số ngày còn lại đến hạn học mới, nên không bị dồn cuối.</li>
+ <li><b>Ôn cách quãng 1 → 2 → 4 → 7 → 12 ngày:</b> chấm Dễ thì nhảy 2 bậc, chấm Khó thì ôn lại vào ngày mai.</li>
+ <li><b>Chốt trước ngày thi:</b> lịch ôn luôn bị chặn ở ngày trước thi, nên mọi câu đều được ôn lại một lượt cuối.</li>
+ <li><b>Thời gian:</b> câu mới tính đủ số phút/câu, câu ôn lại tính 40%. Môn có 60 câu ngắn học theo từng cụm nhỏ, môn 6 câu dài mỗi ngày một câu.</li></ul></div>`;
+ h+=`<button class="b" data-a="rst" style="background:var(--r);color:#111">${ui.rst?'Bấm lần nữa để xóa toàn bộ dữ liệu':'Xóa dữ liệu, làm lại từ đầu'}</button>`;
+ return h}
+
+function vCards(t){let h=`<p class="sm">Chạm vào một câu để chấm điểm hoặc đặt lại. Trắng: chưa học · vàng: đang học · xanh: thuộc chắc · viền đỏ: đến hạn ôn.</p>`;
+ S.subs.forEach(s=>{h+=`<h3 style="background:${s.c}">${s.name}</h3><div class="gr">`+S.cards[s.id].map((c,i)=>{
+  const bg=c.due==null?'var(--card)':c.r>=3?'#7AE582':'#FFD93D',due=c.due!=null&&c.due<=t&&t<=ex(s);
+  return `<button class="b${due?' due':''}" style="background:${bg};${c.due==null?'color:var(--ink)':''}" data-a="sel" data-s="${s.id}" data-i="${i}">${i+1}</button>`}).join('')+`</div>`});return h}
+
+function sheet(t){if(!ui.sel)return'';const s=sub(ui.sel.s),i=ui.sel.i,c=S.cards[s.id][i];
+ return `<div class="sh"><div class="in"><b>${s.name} · câu ${i+1}</b><p class="sm" style="margin:4px 0 10px">${c.due==null?'Chưa học':`Ôn lần ${c.r} · ôn tiếp: ${c.due>ex(s)?'không cần':fmt(c.due)}`}</p>
+ <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px">${[0,1,2].map(g=>`<button class="b" data-a="r" data-s="${s.id}" data-i="${i}" data-g="${g}">${GE[g]} ${GL[g]}</button>`).join('')}</div>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="b" data-a="clr" data-s="${s.id}" data-i="${i}">Đặt lại câu</button><button class="b" data-a="close">Đóng</button></div></div></div>`}
+
+const $app=document.getElementById('app');
+function render(){const t=today();$app.innerHTML=head(t)+[vToday,vPlan,vCards][ui.tab](t)+sheet(t)}
+
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const d=b.dataset,t=today();
+ if(d.a=='tab'){ui.tab=+d.v;ui.sel=null;ui.rst=0;window.scrollTo(0,0)}
+ else if(d.a=='r'){const s=sub(d.s),n=rate(S.cards,s,+d.i,+d.g,t);(S.log[t]=S.log[t]||[]).push({s:s.id,i:+d.i,g:+d.g,n});ui.sel=null;save()}
+ else if(d.a=='sel')ui.sel={s:d.s,i:+d.i};
+ else if(d.a=='close')ui.sel=null;
+ else if(d.a=='clr'){S.cards[d.s][+d.i]={r:0,due:null,f:null};ui.sel=null;save()}
+ else if(d.a=='rst'){if(ui.rst){try{localStorage.removeItem(K)}catch(x){}S=JSON.parse(JSON.stringify(BASE));S.subs.forEach(s=>S.cards[s.id]=Array.from({length:s.n},()=>({r:0,due:null,f:null})));ui.rst=0}else ui.rst=1}
+ render()});
+document.addEventListener('input',e=>{if(e.target.id=='jr'){S.jr[today()]=e.target.value;save()}});
+document.addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;const v=Math.max(1,parseInt(e.target.value)||1);
+ if(k=='cap')S.cap=v;else{const s=sub(e.target.dataset.s);s[k]=k=='rsv'?Math.min(v,6):v}save();render()});
+render();
+</script>
+</body>
+</html>
